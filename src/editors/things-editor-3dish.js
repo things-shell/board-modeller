@@ -4,8 +4,8 @@
 
 import { LitElement, html, css } from 'lit-element'
 
+import '@things-shell/client-i18n'
 import './things-editor-angle-input'
-import './things-i18n-msg'
 
 class ThingsEditor3Dish extends LitElement {
   static get is() {

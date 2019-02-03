@@ -8,7 +8,7 @@ import '@polymer/iron-pages/iron-pages'
 import '@polymer/paper-radio-button/paper-radio-button'
 import '@polymer/paper-radio-group/paper-radio-group'
 
-import '../../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 import '../../editors/things-editor-code'
 import './data-binding-value-map'
 import './data-binding-value-range'
@@ -114,14 +114,12 @@ export default class DataBindingMapper extends LitElement {
 
       <label> <things-i18n-msg msgid="label.property">property</things-i18n-msg> </label>
       <select value-key="property" .value=${this.mapping.property}>
-        ${
-          this.properties.map(
-            item =>
-              html`
-                <option .value=${item.name}>${item.label}</option>
-              `
-          )
-        }
+        ${this.properties.map(
+          item =>
+            html`
+              <option .value=${item.name}>${item.label}</option>
+            `
+        )}
       </select>
 
       <label> <things-i18n-msg msgid="label.rule-type">rule type</things-i18n-msg> </label>

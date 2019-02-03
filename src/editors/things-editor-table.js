@@ -10,7 +10,7 @@ import '@material/mwc-icon/mwc-icon'
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu'
 import '@polymer/paper-item/paper-item'
 
-import '../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 import './things-editor-buttons-radio'
 import './things-editor-color'
 

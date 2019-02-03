@@ -4,7 +4,7 @@
 
 import { LitElement, html } from 'lit-element'
 
-import '../../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 import '../../editors/things-editor-angle-input'
 
 import { EffectsSharedStyle } from './effects-shared-style'
@@ -61,52 +61,42 @@ export default class PropertyAnimation extends LitElement {
       <label> <things-i18n-msg msgid="label.duration">duration</things-i18n-msg> </label>
       <input type="number" value-key="duration" .value=${this.value.duration} placeholder="ms" />
 
-      ${
-        this.value.type == 'rotation' || this.value.type == 'vibration'
-          ? html`
-              <label> <things-i18n-msg msgid="label.theta">theta</things-i18n-msg> </label>
-              <things-editor-angle-input value-key="theta" .radian=${this.value.theta}> </things-editor-angle-input>
-            `
-          : html``
-      }
-      ${
-        this.value.type == 'heartbeat'
-          ? html`
-              <label> <things-i18n-msg msgid="label.scale">scale</things-i18n-msg> </label>
-              <input type="number" value-key="scale" .value=${this.value.scale} />
-            `
-          : html``
-      }
-      ${
-        this.value.type == 'moving'
-          ? html`
-              <label> <things-i18n-msg msgid="label.x-axes">X-axes</things-i18n-msg> </label>
-              <input type="number" value-key="x" .value=${this.value.x} />
+      ${this.value.type == 'rotation' || this.value.type == 'vibration'
+        ? html`
+            <label> <things-i18n-msg msgid="label.theta">theta</things-i18n-msg> </label>
+            <things-editor-angle-input value-key="theta" .radian=${this.value.theta}> </things-editor-angle-input>
+          `
+        : html``}
+      ${this.value.type == 'heartbeat'
+        ? html`
+            <label> <things-i18n-msg msgid="label.scale">scale</things-i18n-msg> </label>
+            <input type="number" value-key="scale" .value=${this.value.scale} />
+          `
+        : html``}
+      ${this.value.type == 'moving'
+        ? html`
+            <label> <things-i18n-msg msgid="label.x-axes">X-axes</things-i18n-msg> </label>
+            <input type="number" value-key="x" .value=${this.value.x} />
 
-              <label> <things-i18n-msg msgid="label.y-axes">Y-axes</things-i18n-msg> </label>
-              <input type="number" value-key="y" .value=${this.value.y} />
-            `
-          : html``
-      }
-      ${
-        this.value.type == 'fade'
-          ? html`
-              <label> <things-i18n-msg msgid="label.start-alpha">start alpha</things-i18n-msg> </label>
-              <input type="number" value-key="startAlpha" .value=${this.value.startAlpha} />
+            <label> <things-i18n-msg msgid="label.y-axes">Y-axes</things-i18n-msg> </label>
+            <input type="number" value-key="y" .value=${this.value.y} />
+          `
+        : html``}
+      ${this.value.type == 'fade'
+        ? html`
+            <label> <things-i18n-msg msgid="label.start-alpha">start alpha</things-i18n-msg> </label>
+            <input type="number" value-key="startAlpha" .value=${this.value.startAlpha} />
 
-              <label> <things-i18n-msg msgid="label.end-alpha">end alpha</things-i18n-msg> </label>
-              <input type="number" value-key="endAlpha" .value=${this.value.endAlpha} />
-            `
-          : html``
-      }
-      ${
-        this.value.type == 'outline'
-          ? html`
-              <label> <things-i18n-msg msgid="label.target">target</things-i18n-msg> </label>
-              <input value-key="rideOn" .value=${this.value.rideOn} />
-            `
-          : html``
-      }
+            <label> <things-i18n-msg msgid="label.end-alpha">end alpha</things-i18n-msg> </label>
+            <input type="number" value-key="endAlpha" .value=${this.value.endAlpha} />
+          `
+        : html``}
+      ${this.value.type == 'outline'
+        ? html`
+            <label> <things-i18n-msg msgid="label.target">target</things-i18n-msg> </label>
+            <input value-key="rideOn" .value=${this.value.rideOn} />
+          `
+        : html``}
 
       <input value-key="repeat" type="checkbox" ?checked=${this.value.repeat} />
       <label class="checkbox-label"> <things-i18n-msg msgid="label.repeat">repeat</things-i18n-msg> </label>

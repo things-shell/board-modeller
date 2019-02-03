@@ -7,7 +7,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@material/mwc-icon/mwc-icon'
 
 import '@polymer/paper-tabs/paper-tabs'
-// import 'web-animations-js'
+import 'web-animations-js'
 
 import './shapes/shapes'
 import './styles/styles'
@@ -18,8 +18,18 @@ import './data-binding/data-binding'
 import { ScrollbarStyles } from '../styles/scrollbar-styles'
 
 class PropertySidebar extends LitElement {
-  static get is() {
-    return 'property-sidebar'
+  constructor() {
+    super()
+
+    this.scene = null
+    this.bounds = {}
+    this.model = {}
+    this.selected = []
+    this.specificProps = []
+    this.tapIndex = 0
+    this.collapsed = false
+    this.fonts = []
+    this.propertyEditor = []
   }
 
   static get properties() {
@@ -31,7 +41,8 @@ class PropertySidebar extends LitElement {
       specificProps: Array,
       tapIndex: Number,
       collapsed: Boolean,
-      fonts: Array
+      fonts: Array,
+      propertyEditor: Array
     }
   }
 
@@ -71,20 +82,7 @@ class PropertySidebar extends LitElement {
     ]
   }
 
-  constructor() {
-    super()
-
-    this.scene = null
-    this.bounds = {}
-    this.model = {}
-    this.selected = []
-    this.specificProps = []
-    this.tapIndex = 0
-    this.collapsed = true
-    this.fonts = []
-
-    this.propertyTarget = null
-  }
+  propertyTarget = null
 
   firstUpdated() {
     this.shadowRoot.addEventListener('property-change', this._onPropertyChanged.bind(this))
@@ -97,18 +95,12 @@ class PropertySidebar extends LitElement {
     change.has('collapsed') && this._onCollapsed(this.collapsed)
   }
 
-  stateChanged(state) {
-    this.fonts = state.fontList
-  }
-
   render() {
     return html`
       <paper-tabs
-        @selected-changed=${
-          e => {
-            this.tapIndex = e.target.selected
-          }
-        }
+        @selected-changed=${e => {
+          this.tapIndex = e.target.selected
+        }}
         selected=${this.tapIndex}
         noink
       >
@@ -131,6 +123,7 @@ class PropertySidebar extends LitElement {
           .scene=${this.scene}
           .selected=${this.selected}
           .props=${this.specificProps}
+          .propertyEditor=${this.propertyEditor}
         >
         </property-specific>
 
@@ -293,4 +286,4 @@ class PropertySidebar extends LitElement {
   }
 }
 
-customElements.define(PropertySidebar.is, PropertySidebar)
+customElements.define('property-sidebar', PropertySidebar)

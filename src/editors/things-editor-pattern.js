@@ -4,7 +4,7 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 
 /**
  * 컴포넌트의 fill pattern을 편집하는 element

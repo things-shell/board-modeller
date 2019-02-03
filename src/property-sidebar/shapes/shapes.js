@@ -4,7 +4,7 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '../../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 import '../../editors/things-editor-buttons-radio'
 import '../../editors/things-editor-angle-input'
 
@@ -128,159 +128,145 @@ class PropertyShapes extends LitElement {
     return html`
       <fieldset>
         <div class="property-grid">
-          ${
-            this._isIdentifiable(this.selected)
-              ? html`
-                  <label> <things-i18n-msg msgid="label.id">ID</things-i18n-msg> </label>
-                  <input value-key="id" .value=${this.value.id || ''} />
-                `
-              : html``
-          }
-          ${
-            this._isClassIdentifiable(this.selected)
-              ? html`
-                  <label> <things-i18n-msg msgid="label.class">Class</things-i18n-msg> </label>
-                  <input value-key="class" .value=${this.value.class || ''} />
-                `
-              : html``
-          }
-          ${
-            this._hasTextProperty(this.selected)
-              ? html`
-                  <label> <things-i18n-msg msgid="label.text">Text</things-i18n-msg> </label>
-                  <input value-key="text" .value=${this.value.text || ''} />
-                  <label> <things-i18n-msg msgid="label.text-format">Text Format</things-i18n-msg> </label>
-                  <input value-key="textFormat" .value=${this.value.textFormat || ''} list="format-list" />
-                  <datalist id="format-list">
-                    <option value="#,###."> </option>
-                    <option value="#,###.#"> </option>
-                    <option value="#,###.0"> </option>
-                    <option value="#,##0.#"> </option>
-                    <option value="#,##0.0"> </option>
-                    <option value="#,##0.0%"> </option>
-                  </datalist>
-                `
-              : html``
-          }
-          ${
-            this._hasProperties(this.selected)
-              ? html`
-                  <div class="checkbox-row">
-                    <input value-key="hidden" type="checkbox" ?checked=${this.value.hidden} />
-                    <label> <things-i18n-msg msgid="label.item-hidden">Item Hidden</things-i18n-msg> </label>
+          ${this._isIdentifiable(this.selected)
+            ? html`
+                <label> <things-i18n-msg msgid="label.id">ID</things-i18n-msg> </label>
+                <input value-key="id" .value=${this.value.id || ''} />
+              `
+            : html``}
+          ${this._isClassIdentifiable(this.selected)
+            ? html`
+                <label> <things-i18n-msg msgid="label.class">Class</things-i18n-msg> </label>
+                <input value-key="class" .value=${this.value.class || ''} />
+              `
+            : html``}
+          ${this._hasTextProperty(this.selected)
+            ? html`
+                <label> <things-i18n-msg msgid="label.text">Text</things-i18n-msg> </label>
+                <input value-key="text" .value=${this.value.text || ''} />
+                <label> <things-i18n-msg msgid="label.text-format">Text Format</things-i18n-msg> </label>
+                <input value-key="textFormat" .value=${this.value.textFormat || ''} list="format-list" />
+                <datalist id="format-list">
+                  <option value="#,###."> </option>
+                  <option value="#,###.#"> </option>
+                  <option value="#,###.0"> </option>
+                  <option value="#,##0.#"> </option>
+                  <option value="#,##0.0"> </option>
+                  <option value="#,##0.0%"> </option>
+                </datalist>
+              `
+            : html``}
+          ${this._hasProperties(this.selected)
+            ? html`
+                <div class="checkbox-row">
+                  <input value-key="hidden" type="checkbox" ?checked=${this.value.hidden} />
+                  <label> <things-i18n-msg msgid="label.item-hidden">Item Hidden</things-i18n-msg> </label>
 
-                    <input value-key="locked" type="checkbox" ?checked=${this.value.locked} />
-                    <label> <things-i18n-msg msgid="label.locked">Locked</things-i18n-msg> </label>
-                  </div>
-                `
-              : html``
-          }
+                  <input value-key="locked" type="checkbox" ?checked=${this.value.locked} />
+                  <label> <things-i18n-msg msgid="label.locked">Locked</things-i18n-msg> </label>
+                </div>
+              `
+            : html``}
         </div>
       </fieldset>
 
-      ${
-        this._isLine(this.selected)
-          ? html`
-              <fieldset class="icon-label unit ratio">
-                <legend><things-i18n-msg msgid="label.size">size</things-i18n-msg></legend>
+      ${this._isLine(this.selected)
+        ? html`
+            <fieldset class="icon-label unit ratio">
+              <legend><things-i18n-msg msgid="label.size">size</things-i18n-msg></legend>
 
-                <div class="property-grid">
-                  <label class="width"> <things-i18n-msg msgid="label.width">width</things-i18n-msg> </label>
-                  <input type="number" value-key="bounds.width" .value=${this.bounds.width} />
-                  <label class="height"> <things-i18n-msg msgid="label.height">height</things-i18n-msg> </label>
-                  <input type="number" value-key="bounds.height" .value=${this.bounds.height} />
+              <div class="property-grid">
+                <label class="width"> <things-i18n-msg msgid="label.width">width</things-i18n-msg> </label>
+                <input type="number" value-key="bounds.width" .value=${this.bounds.width} />
+                <label class="height"> <things-i18n-msg msgid="label.height">height</things-i18n-msg> </label>
+                <input type="number" value-key="bounds.height" .value=${this.bounds.height} />
 
-                  <label class="rotate"> <things-i18n-msg msgid="label.rotate">rotate</things-i18n-msg> </label>
-                  <things-editor-angle-input value-key="rotation" .radian=${this.value.rotation}>
-                  </things-editor-angle-input>
+                <label class="rotate"> <things-i18n-msg msgid="label.rotate">rotate</things-i18n-msg> </label>
+                <things-editor-angle-input value-key="rotation" .radian=${this.value.rotation}>
+                </things-editor-angle-input>
+              </div>
+            </fieldset>
+          `
+        : html``}
+      ${this._is3dish(this.selected)
+        ? html`
+            <fieldset class="icon-label unit ratio">
+              <legend><things-i18n-msg msgid="label.3dish">3D</things-i18n-msg></legend>
+
+              <div class="property-grid">
+                <label class="zPos"> <things-i18n-msg msgid="label.z-pos">pos. Z</things-i18n-msg> </label>
+                <input type="number" value-key="zPos" .value=${this.value.zPos} />
+                <label class="depth"> <things-i18n-msg msgid="label.depth">depth</things-i18n-msg> </label>
+                <input type="number" value-key="depth" .value=${this.value.depth} />
+
+                <label class="rotationX"> <things-i18n-msg msgid="label.rotation-x">rot. X</things-i18n-msg> </label>
+                <things-editor-angle-input value-key="rotationX" .radian=${this.value.rotationX}>
+                </things-editor-angle-input>
+
+                <label class="rotationY"> <things-i18n-msg msgid="label.rotation-y">rot. Y</things-i18n-msg> </label>
+                <things-editor-angle-input value-key="rotationY" .radian=${this.value.rotationY}>
+                </things-editor-angle-input>
+
+                <label class="rotationZ"> <things-i18n-msg msgid="label.rotation-z">rot. Z</things-i18n-msg> </label>
+                <things-editor-angle-input value-key="rotation" .radian=${this.value.rotation}>
+                </things-editor-angle-input>
+              </div>
+            </fieldset>
+          `
+        : html``}
+      ${this._hasTextProperty(this.selected)
+        ? html`
+            <fieldset>
+              <legend><things-i18n-msg msgid="label.text-box">text box</things-i18n-msg></legend>
+
+              <div class="property-grid">
+                <label> <things-i18n-msg msgid="label.horizontal">horizontal</things-i18n-msg> </label>
+                <things-editor-buttons-radio value-key="textAlign" .value=${this.value.textAlign}>
+                  <paper-button data-value="left"></paper-button>
+                  <paper-button data-value="center"></paper-button>
+                  <paper-button data-value="right"></paper-button>
+                  <paper-button data-value="justify"></paper-button>
+                </things-editor-buttons-radio>
+
+                <label> <things-i18n-msg msgid="label.vertical">vertical</things-i18n-msg> </label>
+                <things-editor-buttons-radio value-key="textBaseline" .value=${this.value.textBaseline}>
+                  <paper-button data-value="top"></paper-button>
+                  <paper-button data-value="middle"></paper-button>
+                  <paper-button data-value="bottom"></paper-button>
+                </things-editor-buttons-radio>
+
+                <div class="checkbox-row">
+                  <input type="checkbox" value-key="textWrap" ?checked=${this.value.textWrap} />
+                  <label> <things-i18n-msg msgid="label.text-wrap">Text Wrap</things-i18n-msg> </label>
                 </div>
-              </fieldset>
-            `
-          : html``
-      }
-      ${
-        this._is3dish(this.selected)
-          ? html`
-              <fieldset class="icon-label unit ratio">
-                <legend><things-i18n-msg msgid="label.3dish">3D</things-i18n-msg></legend>
 
-                <div class="property-grid">
-                  <label class="zPos"> <things-i18n-msg msgid="label.z-pos">pos. Z</things-i18n-msg> </label>
-                  <input type="number" value-key="zPos" .value=${this.value.zPos} />
-                  <label class="depth"> <things-i18n-msg msgid="label.depth">depth</things-i18n-msg> </label>
-                  <input type="number" value-key="depth" .value=${this.value.depth} />
-
-                  <label class="rotationX"> <things-i18n-msg msgid="label.rotation-x">rot. X</things-i18n-msg> </label>
-                  <things-editor-angle-input value-key="rotationX" .radian=${this.value.rotationX}>
-                  </things-editor-angle-input>
-
-                  <label class="rotationY"> <things-i18n-msg msgid="label.rotation-y">rot. Y</things-i18n-msg> </label>
-                  <things-editor-angle-input value-key="rotationY" .radian=${this.value.rotationY}>
-                  </things-editor-angle-input>
-
-                  <label class="rotationZ"> <things-i18n-msg msgid="label.rotation-z">rot. Z</things-i18n-msg> </label>
-                  <things-editor-angle-input value-key="rotation" .radian=${this.value.rotation}>
-                  </things-editor-angle-input>
-                </div>
-              </fieldset>
-            `
-          : html``
-      }
-      ${
-        this._hasTextProperty(this.selected)
-          ? html`
-              <fieldset>
-                <legend><things-i18n-msg msgid="label.text-box">text box</things-i18n-msg></legend>
-
-                <div class="property-grid">
-                  <label> <things-i18n-msg msgid="label.horizontal">horizontal</things-i18n-msg> </label>
-                  <things-editor-buttons-radio value-key="textAlign" .value=${this.value.textAlign}>
-                    <paper-button data-value="left"></paper-button>
-                    <paper-button data-value="center"></paper-button>
-                    <paper-button data-value="right"></paper-button>
-                    <paper-button data-value="justify"></paper-button>
-                  </things-editor-buttons-radio>
-
-                  <label> <things-i18n-msg msgid="label.vertical">vertical</things-i18n-msg> </label>
-                  <things-editor-buttons-radio value-key="textBaseline" .value=${this.value.textBaseline}>
-                    <paper-button data-value="top"></paper-button>
-                    <paper-button data-value="middle"></paper-button>
-                    <paper-button data-value="bottom"></paper-button>
-                  </things-editor-buttons-radio>
-
-                  <div class="checkbox-row">
-                    <input type="checkbox" value-key="textWrap" ?checked=${this.value.textWrap} />
-                    <label> <things-i18n-msg msgid="label.text-wrap">Text Wrap</things-i18n-msg> </label>
-                  </div>
-
-                  <label> <things-i18n-msg msgid="label.padding">padding</things-i18n-msg> </label>
-                  <table class="box-padding">
-                    <tr>
-                      <td class="slide1"></td>
-                      <td class="slide2"></td>
-                      <td class="slide3"></td>
-                    </tr>
-                    <tr>
-                      <td class="slide4"></td>
-                      <td class="slide5">
-                        <input type="number" value-key="paddingTop" .value=${this.value.paddingTop} />
-                        <input type="number" value-key="paddingLeft" .value=${this.value.paddingLeft} />
-                        <input type="number" value-key="paddingRight" .value=${this.value.paddingRight} />
-                        <input type="number" value-key="paddingBottom" .value=${this.value.paddingBottom} />
-                      </td>
-                      <td class="slide6"></td>
-                    </tr>
-                    <tr>
-                      <td class="slide7"></td>
-                      <td class="slide8"></td>
-                      <td class="slide9"></td>
-                    </tr>
-                  </table>
-                </div>
-              </fieldset>
-            `
-          : html``
-      }
+                <label> <things-i18n-msg msgid="label.padding">padding</things-i18n-msg> </label>
+                <table class="box-padding">
+                  <tr>
+                    <td class="slide1"></td>
+                    <td class="slide2"></td>
+                    <td class="slide3"></td>
+                  </tr>
+                  <tr>
+                    <td class="slide4"></td>
+                    <td class="slide5">
+                      <input type="number" value-key="paddingTop" .value=${this.value.paddingTop} />
+                      <input type="number" value-key="paddingLeft" .value=${this.value.paddingLeft} />
+                      <input type="number" value-key="paddingRight" .value=${this.value.paddingRight} />
+                      <input type="number" value-key="paddingBottom" .value=${this.value.paddingBottom} />
+                    </td>
+                    <td class="slide6"></td>
+                  </tr>
+                  <tr>
+                    <td class="slide7"></td>
+                    <td class="slide8"></td>
+                    <td class="slide9"></td>
+                  </tr>
+                </table>
+              </div>
+            </fieldset>
+          `
+        : html``}
     `
   }
 

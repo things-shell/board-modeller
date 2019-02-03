@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 
-import { create as createScene } from '../../things-real'
+import { create as createScene } from '@hatiolab/things-scene'
 
 import './confidential-overlay'
 

@@ -2,7 +2,7 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html, css } from 'lit-element'
+import { LitElement, html } from 'lit-element'
 
 import '@polymer/app-layout/app-toolbar/app-toolbar'
 import '@polymer/paper-slider/paper-slider'
@@ -14,17 +14,20 @@ import '@polymer/neon-animation/animations/fade-out-animation'
 import '@polymer/paper-dialog/paper-dialog'
 import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable'
 
-// import { Component } from '../../../things-real'
+import { i18next, localize } from '@things-shell/client-i18n'
 
-import { i18next } from '../components/i18next'
-import { localize } from '../components/localize-mixin'
-
-import '../components/things-i18n-msg'
-import '../layouts/page-toolbar/page-toolbar'
+import { style } from './edit-toolbar-style'
 
 class EditToolbar extends localize(i18next)(LitElement) {
-  static get is() {
-    return 'edit-toolbar'
+  constructor() {
+    super()
+
+    this.scene = null
+    this.selected = []
+    this.hideProperty = false
+    this.labelName = 'SAMPLE'
+    this.variables = {}
+    this.board = null
   }
 
   static get properties() {
@@ -33,212 +36,13 @@ class EditToolbar extends localize(i18next)(LitElement) {
       selected: Array,
       hideProperty: Boolean,
       labelName: String,
-
       variables: Object,
-      boardGroupList: Array,
-
-      boardCurrent: Object,
-
-      group: Object
+      board: Object
     }
   }
 
   static get styles() {
-    return [
-      css`
-        paper-icon-button {
-          background: url(./assets/images/icon-htoolbar.png) no-repeat;
-          background-position-x: 50%;
-        }
-
-        page-toolbar > label,
-        #fullscreen,
-        #toggle-property {
-          flex: none;
-        }
-
-        #align-left {
-          background-position-y: 10px;
-        }
-
-        #align-center {
-          background-position-y: -40px;
-        }
-
-        #align-right {
-          background-position-y: -90px;
-        }
-
-        #align-top {
-          background-position-y: -140px;
-        }
-
-        #align-middle {
-          background-position-y: -190px;
-        }
-
-        #align-bottom {
-          background-position-y: -240px;
-        }
-
-        #undo {
-          background-position-y: -590px;
-        }
-
-        #redo {
-          background-position-y: -640px;
-        }
-
-        #front {
-          background-position-y: -290px;
-        }
-
-        #back {
-          background-position-y: -340px;
-        }
-
-        #forward {
-          background-position-y: -390px;
-        }
-
-        #backward {
-          background-position-y: -440px;
-        }
-
-        #symmetry-x {
-          background-position-y: -490px;
-        }
-
-        #symmetry-y {
-          background-position-y: -540px;
-        }
-
-        #group {
-          background-position-y: -490px;
-        }
-
-        #ungroup {
-          background-position-y: -540px;
-        }
-
-        #fullscreen {
-          background-position-y: -690px;
-        }
-
-        #toggle-property {
-          background-position-y: -690px;
-          float: right;
-        }
-
-        #zoomin {
-          background-position-y: -740px;
-        }
-
-        #zoomout {
-          background-position-y: -790px;
-        }
-
-        #fit-scene {
-          background-position-y: -1490px;
-        }
-
-        #cut {
-          background-position-y: -840px;
-        }
-
-        #copy {
-          background-position-y: -890px;
-        }
-
-        #paste {
-          background-position-y: -940px;
-        }
-
-        #delete {
-          background-position-y: -990px;
-        }
-
-        #font-increase {
-          background-position-y: -1040px;
-        }
-
-        #font-decrease {
-          background-position-y: -1090px;
-        }
-
-        #style-copy {
-          background-position-y: -1140px;
-        }
-
-        #context-menu {
-          background-position-y: -690px;
-        }
-
-        #symmetry-x {
-          background-position-y: -1190px;
-        }
-
-        #symmetry-y {
-          background-position-y: -1240px;
-        }
-
-        #rotate-cw {
-          background-position-y: -1290px;
-        }
-
-        #rotate-ccw {
-          background-position-y: -1340px;
-        }
-
-        #distribute-horizontal {
-          background-position-y: -1540px;
-        }
-
-        #distribute-vertical {
-          background-position-y: -1591px;
-        }
-
-        #toggle-property {
-          background-position-y: -1390px;
-        }
-
-        #preview {
-          background-position-y: -1638px;
-        }
-
-        /* bigger buttons */
-        #fullscreen {
-          background: url(./assets/images/icon-fullscreen.png) 50% 10px no-repeat;
-          width: 45px;
-          height: 45px;
-          border-left: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        #toggle-property {
-          background: url(./assets/images/icon-collapse.png) 80% 10px no-repeat;
-          width: 45px;
-          height: 45px;
-          border-left: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        #toggle-property[active] {
-          background: url(./assets/images/icon-collapse-active.png) 80% 10px no-repeat;
-        }
-      `
-    ]
-  }
-
-  constructor() {
-    super()
-
-    this.scene
-    this.selected = []
-    this.hideProperty = false
-    this.labelName = 'SAMPLE'
-    this.variables = {}
-    this.boardGroupList = []
-    this.boardCurrent = null
-    this.group = {}
+    return [style]
   }
 
   firstUpdated() {
@@ -278,20 +82,14 @@ class EditToolbar extends localize(i18next)(LitElement) {
     this.shadowRoot.getElementById('preview').addEventListener('tap', this.onTapPreview.bind(this))
 
     // TODO injection 으로 변경합시다.
-    var modelerScene = this.parentNode.querySelector('things-scene-viewer')
+    // var modelerScene = this.parentNode.querySelector('things-scene-viewer')
 
-    var userOS = this._isMacOS() // OS가 맥인지 확인
+    // var userOS = this._isMacOS() // OS가 맥인지 확인
 
-    modelerScene.addEventListener('keydown', e => {
-      this.onShortcut(e, userOS)
-      modelerScene.focus()
-    })
-  }
-
-  stateChanged(state) {
-    this.boardGroupList = state.boardGroupList
-    this.boardCurrent = state.boardCurrent
-    this.group = state.boardGroupCurrent
+    // modelerScene.addEventListener('keydown', e => {
+    //   this.onShortcut(e, userOS)
+    //   modelerScene.focus()
+    // })
   }
 
   updated(change) {
@@ -301,205 +99,150 @@ class EditToolbar extends localize(i18next)(LitElement) {
 
   render() {
     return html`
-      <page-toolbar>
-        <label>${this.buildTitle(this.boardCurrent)}</label>
+      <label>${this.board ? this.board.name : 'NO TITLE'}</label>
 
-        <paper-icon-button id="undo" title="undo (${this.getShortcutString('cmd', 'z')})"> </paper-icon-button>
-        <paper-icon-button id="redo" title="redo (${this.getShortcutString('cmd', 'shift', 'z')})"> </paper-icon-button>
+      <paper-icon-button id="undo" title="undo (${this.getShortcutString('cmd', 'z')})"> </paper-icon-button>
+      <paper-icon-button id="redo" title="redo (${this.getShortcutString('cmd', 'shift', 'z')})"> </paper-icon-button>
 
-        <span class="vline"></span>
+      <span class="vline"></span>
 
-        <paper-icon-button id="cut" title="cut (${this.getShortcutString('cmd', 'x')})"> </paper-icon-button>
-        <paper-icon-button id="copy" title="copy (${this.getShortcutString('cmd', 'c')})"> </paper-icon-button>
-        <paper-icon-button id="paste" title="paste (${this.getShortcutString('cmd', 'v')})"> </paper-icon-button>
-        <paper-icon-button
-          id="delete"
-          title="delete (${this.getShortcutString('backspace')}, ${this.getShortcutString('delete')})"
-        >
-        </paper-icon-button>
+      <paper-icon-button id="cut" title="cut (${this.getShortcutString('cmd', 'x')})"> </paper-icon-button>
+      <paper-icon-button id="copy" title="copy (${this.getShortcutString('cmd', 'c')})"> </paper-icon-button>
+      <paper-icon-button id="paste" title="paste (${this.getShortcutString('cmd', 'v')})"> </paper-icon-button>
+      <paper-icon-button
+        id="delete"
+        title="delete (${this.getShortcutString('backspace')}, ${this.getShortcutString('delete')})"
+      >
+      </paper-icon-button>
 
-        <span class="vline"></span>
+      <span class="vline"></span>
 
-        <!-- TODO Implement style-copy
+      <!-- TODO Implement style-copy
         <paper-icon-button id="style-copy" title="format painter"></paper-icon-button>
         <span class="vline"></span>
       -->
 
-        <paper-icon-button
-          data-align="left"
-          id="align-left"
-          title="align left (${this.getShortcutString('alt', 'shift', 'l')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          data-align="center"
-          id="align-center"
-          title="align center (${this.getShortcutString('alt', 'shift', 'c')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          data-align="right"
-          id="align-right"
-          title="align right (${this.getShortcutString('alt', 'shift', 'r')})"
-        >
-        </paper-icon-button>
-
-        <paper-icon-button
-          data-align="top"
-          id="align-top"
-          title="align top (${this.getShortcutString('alt', 'shift', 't')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          data-align="middle"
-          id="align-middle"
-          title="align middle (${this.getShortcutString('alt', 'shift', 'm')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          data-align="bottom"
-          id="align-bottom"
-          title="align bottom (${this.getShortcutString('alt', 'shift', 'b')})"
-        >
-        </paper-icon-button>
-
-        <paper-icon-button
-          data-distribute="HORIZONTAL"
-          id="distribute-horizontal"
-          title="distribute horizontally (${this.getShortcutString('alt', 'shift', 'h')})"
-        >
-        </paper-icon-button>
-
-        <paper-icon-button
-          data-distribute="VERTICAL"
-          id="distribute-vertical"
-          title="distribute vertically (${this.getShortcutString('alt', 'shift', 'v')})"
-        >
-        </paper-icon-button>
-
-        <span class="vline"></span>
-
-        <paper-icon-button
-          id="front"
-          data-zorder="front"
-          title="bring to front (${this.getShortcutString('cmd', 'shift', 'f')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          id="back"
-          data-zorder="back"
-          title="send to back (${this.getShortcutString('cmd', 'shift', 'b')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          id="forward"
-          data-zorder="forward"
-          title="bring forward (${this.getShortcutString('cmd', 'f')})"
-        >
-        </paper-icon-button>
-        <paper-icon-button
-          id="backward"
-          data-zorder="backward"
-          title="send backward (${this.getShortcutString('cmd', 'b')})"
-        >
-        </paper-icon-button>
-
-        <span class="vline"></span>
-
-        <paper-icon-button id="symmetry-x" title="symmetry-x (${this.getShortcutString('alt', 'shift', 'x')})">
-        </paper-icon-button>
-        <paper-icon-button id="symmetry-y" title="symmetry-y (${this.getShortcutString('alt', 'shift', 'y')})">
-        </paper-icon-button>
-        <paper-icon-button id="rotate-cw" title="rotate clockwise (${this.getShortcutString('alt', 'shift', 'e')})">
-        </paper-icon-button>
-        <paper-icon-button
-          id="rotate-ccw"
-          title="rotate counter clockwise (${this.getShortcutString('alt', 'shift', 'w')})"
-        >
-        </paper-icon-button>
-
-        <span class="vline"></span>
-
-        <paper-icon-button id="group" title="group (${this.getShortcutString('cmd', 'g')})"> </paper-icon-button>
-        <paper-icon-button id="ungroup" title="ungroup (${this.getShortcutString('cmd', 'shift', 'g')})">
-        </paper-icon-button>
-
-        <span class="vline"></span>
-
-        <paper-icon-button id="font-increase" title="increase font size"></paper-icon-button>
-        <paper-icon-button id="font-decrease" title="decrease font size"></paper-icon-button>
-
-        <span class="vline"></span>
-
-        <paper-icon-button id="fit-scene" title="fit scene (${this.getShortcutString('cmd', 'd')})">
-        </paper-icon-button>
-
-        <span class="vline"></span>
-
-        <paper-icon-button id="preview" title="preview (${this.getShortcutString('ctrl', 'p')})"> </paper-icon-button>
-
-        <paper-icon-button id="fullscreen" title="fullscreen (${this.getShortcutString('f11')})"> </paper-icon-button>
-
-        <paper-icon-button
-          id="toggle-property"
-          title="toggle property panel (${this.getShortcutString('cmd', 'h')})"
-          toggles="true"
-        >
-        </paper-icon-button>
-      </page-toolbar>
-
-      <paper-dialog
-        id="save-new-dialog"
-        entry-animation="scale-up-animation"
-        exit-animation="fade-out-animation"
-        @iron-overlay-closed=${e => this.onSaveNewDialogClosed(e)}
-        no-overlap
+      <paper-icon-button
+        data-align="left"
+        id="align-left"
+        title="align left (${this.getShortcutString('alt', 'shift', 'l')})"
       >
-        <h2><things-i18n-msg msgid="label.save-new-board">Save New Board</things-i18n-msg></h2>
-        <paragraph>
-          <things-i18n-msg msgid="label.pls-name-board">Please, give a name for the new board.</things-i18n-msg>
-        </paragraph>
+      </paper-icon-button>
+      <paper-icon-button
+        data-align="center"
+        id="align-center"
+        title="align center (${this.getShortcutString('alt', 'shift', 'c')})"
+      >
+      </paper-icon-button>
+      <paper-icon-button
+        data-align="right"
+        id="align-right"
+        title="align right (${this.getShortcutString('alt', 'shift', 'r')})"
+      >
+      </paper-icon-button>
 
-        <paper-input
-          always-float-label
-          .label="${i18next.t('label.name')}"
-          @change="${e => (this.newBoardName = e.target.value)}"
-          .value=${this.newBoardName}
-        >
-        </paper-input>
-        <paper-textarea
-          always-float-label
-          .label="${i18next.t('label.description')}"
-          @value-changed=${e => (this.newBoardDescription = e.target.value)}
-          rows="1"
-          .value=${this.newBoardDescription}
-        >
-        </paper-textarea>
+      <paper-icon-button
+        data-align="top"
+        id="align-top"
+        title="align top (${this.getShortcutString('alt', 'shift', 't')})"
+      >
+      </paper-icon-button>
+      <paper-icon-button
+        data-align="middle"
+        id="align-middle"
+        title="align middle (${this.getShortcutString('alt', 'shift', 'm')})"
+      >
+      </paper-icon-button>
+      <paper-icon-button
+        data-align="bottom"
+        id="align-bottom"
+        title="align bottom (${this.getShortcutString('alt', 'shift', 'b')})"
+      >
+      </paper-icon-button>
 
-        <label>${i18next.t('label.group')}</label>
-        <select @change=${e => (this.newBoardGroup = e.target.value)} .value=${this.newBoardGroup || this.group.id}>
-          <option value=""></option>
-          ${
-            this.boardGroupList.map(
-              item => html`
-                <option value=${item.id}>${item.name}</option>
-              `
-            )
-          }
-        </select>
+      <paper-icon-button
+        data-distribute="HORIZONTAL"
+        id="distribute-horizontal"
+        title="distribute horizontally (${this.getShortcutString('alt', 'shift', 'h')})"
+      >
+      </paper-icon-button>
 
-        <div class="buttons">
-          <paper-button dialog-dismiss> <things-i18n-msg msgid="button.cancel">Cancel</things-i18n-msg> </paper-button>
-          <paper-button dialog-confirm autofocus>
-            <things-i18n-msg msgid="button.accept">Accept</things-i18n-msg>
-          </paper-button>
-        </div>
-      </paper-dialog>
+      <paper-icon-button
+        data-distribute="VERTICAL"
+        id="distribute-vertical"
+        title="distribute vertically (${this.getShortcutString('alt', 'shift', 'v')})"
+      >
+      </paper-icon-button>
+
+      <span class="vline"></span>
+
+      <paper-icon-button
+        id="front"
+        data-zorder="front"
+        title="bring to front (${this.getShortcutString('cmd', 'shift', 'f')})"
+      >
+      </paper-icon-button>
+      <paper-icon-button
+        id="back"
+        data-zorder="back"
+        title="send to back (${this.getShortcutString('cmd', 'shift', 'b')})"
+      >
+      </paper-icon-button>
+      <paper-icon-button
+        id="forward"
+        data-zorder="forward"
+        title="bring forward (${this.getShortcutString('cmd', 'f')})"
+      >
+      </paper-icon-button>
+      <paper-icon-button
+        id="backward"
+        data-zorder="backward"
+        title="send backward (${this.getShortcutString('cmd', 'b')})"
+      >
+      </paper-icon-button>
+
+      <span class="vline"></span>
+
+      <paper-icon-button id="symmetry-x" title="symmetry-x (${this.getShortcutString('alt', 'shift', 'x')})">
+      </paper-icon-button>
+      <paper-icon-button id="symmetry-y" title="symmetry-y (${this.getShortcutString('alt', 'shift', 'y')})">
+      </paper-icon-button>
+      <paper-icon-button id="rotate-cw" title="rotate clockwise (${this.getShortcutString('alt', 'shift', 'e')})">
+      </paper-icon-button>
+      <paper-icon-button
+        id="rotate-ccw"
+        title="rotate counter clockwise (${this.getShortcutString('alt', 'shift', 'w')})"
+      >
+      </paper-icon-button>
+
+      <span class="vline"></span>
+
+      <paper-icon-button id="group" title="group (${this.getShortcutString('cmd', 'g')})"> </paper-icon-button>
+      <paper-icon-button id="ungroup" title="ungroup (${this.getShortcutString('cmd', 'shift', 'g')})">
+      </paper-icon-button>
+
+      <span class="vline"></span>
+
+      <paper-icon-button id="font-increase" title="increase font size"></paper-icon-button>
+      <paper-icon-button id="font-decrease" title="decrease font size"></paper-icon-button>
+
+      <span class="vline"></span>
+
+      <paper-icon-button id="fit-scene" title="fit scene (${this.getShortcutString('cmd', 'd')})"> </paper-icon-button>
+
+      <span class="vline"></span>
+
+      <paper-icon-button id="preview" title="preview (${this.getShortcutString('ctrl', 'p')})"> </paper-icon-button>
+
+      <paper-icon-button id="fullscreen" title="fullscreen (${this.getShortcutString('f11')})"> </paper-icon-button>
+
+      <paper-icon-button
+        id="toggle-property"
+        title="toggle property panel (${this.getShortcutString('cmd', 'h')})"
+        toggles="true"
+      >
+      </paper-icon-button>
     `
-  }
-
-  buildTitle(boardCurrent) {
-    return (boardCurrent && boardCurrent.name) || 'NO TITLE'
   }
 
   _isMacOS() {
@@ -643,9 +386,6 @@ class EditToolbar extends localize(i18next)(LitElement) {
         break
       case 'Digit2':
         if (ctrlKey) console.log('SELECTED', this.scene && this.scene.selected)
-        break
-      case 'Digit3':
-        // if (ctrlKey) console.log('RESIDENTS', Component.residents)
         break
     }
   }
@@ -867,7 +607,7 @@ class EditToolbar extends localize(i18next)(LitElement) {
   }
 
   onTapFullscreen(e) {
-    this.dispatchEvent(new CustomEvent('modeler-fullscreen'))
+    this.dispatchEvent(new CustomEvent('modeller-fullscreen'))
   }
 
   onTapToggle(e) {
@@ -913,61 +653,6 @@ class EditToolbar extends localize(i18next)(LitElement) {
 
     this.scene.distribute(distribute)
   }
-
-  createBoard() {
-    try {
-      store
-        .dispatch(
-          createBoard({
-            ...this.boardCurrent,
-            model: this.scene.model
-          })
-        )
-        .then(dispatch => {
-          var state = store.getState()
-          dispatch(setRoute('modeler', state.boardCurrent.id))
-        })
-    } catch (e) {
-      if (this.showToastMsg) this.showToastMsg(e)
-    }
-  }
-
-  updateBoard() {
-    try {
-      store.dispatch(
-        updateBoard({
-          ...this.boardCurrent,
-          model: this.scene.model
-        })
-      )
-    } catch (e) {
-      if (this.showToastMsg) this.showToastMsg(e)
-    }
-  }
-
-  saveBoard() {
-    if (!this.boardCurrent.name) {
-      this.newBoardName = ''
-      this.newBoardDescription = ''
-      this.newBoardGroup = this.group.id
-
-      this.shadowRoot.getElementById('save-new-dialog').open()
-    } else {
-      this.updateBoard()
-    }
-  }
-
-  onSaveNewDialogClosed(e) {
-    var dialog = e.target
-
-    if (!dialog.closingReason.confirmed) return
-
-    this.boardCurrent.name = this.newBoardName
-    this.boardCurrent.description = this.newBoardDescription
-    this.boardCurrent.group = this.newBoardGroup
-
-    this.createBoard()
-  }
 }
 
-customElements.define(EditToolbar.is, EditToolbar)
+customElements.define('edit-toolbar', EditToolbar)

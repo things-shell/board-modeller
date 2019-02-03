@@ -4,7 +4,7 @@
 
 import { LitElement, html } from 'lit-element'
 
-import '../../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 
 import { EffectsSharedStyle } from './effects-shared-style'
 
@@ -59,23 +59,19 @@ class PropertyEventHover extends LitElement {
       />
 
       <datalist id="target-list">
-        ${
-          this._getTargetList(this.value.action).map(
-            item => html`
-              <option .value=${item}></option>
-            `
-          )
-        }
+        ${this._getTargetList(this.value.action).map(
+          item => html`
+            <option .value=${item}></option>
+          `
+        )}
       </datalist>
 
-      ${
-        this.value.action == 'data-set'
-          ? html`
-              <label> <things-i18n-msg msgid="label.value">value</things-i18n-msg> </label>
-              <input value-key="value" .value=${this.value.value || ''} />
-            `
-          : html``
-      }
+      ${this.value.action == 'data-set'
+        ? html`
+            <label> <things-i18n-msg msgid="label.value">value</things-i18n-msg> </label>
+            <input value-key="value" .value=${this.value.value || ''} />
+          `
+        : html``}
 
       <input type="checkbox" value-key="restore" ?checked=${this.value.restore} />
       <label class="checkbox-label">

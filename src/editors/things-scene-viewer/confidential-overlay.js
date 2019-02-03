@@ -2,7 +2,7 @@
  * Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { Layer as SceneLayer, Component as SceneComponent } from '../../things-real'
+import { Layer as SceneLayer, Component as SceneComponent } from '@hatiolab/things-scene'
 
 export default class ConfidentialOverlay extends SceneLayer {
   _draw(context) {

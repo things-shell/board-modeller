@@ -2,18 +2,17 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html } from 'lit-element'
+import { PolymerElement, html } from '@polymer/polymer/polymer-element'
 
-// import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import { PaperDialogBehavior } from '@polymer/paper-dialog-behavior/paper-dialog-behavior'
 import '@polymer/paper-dialog-behavior/paper-dialog-shared-styles'
 
-import { cloneDeep } from 'lodash'
+import { deepClone } from '@things-shell/client-utils'
 
 import noImage from '../../assets/images/components/no-image.png'
 
-// class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], connect(store)(LitElement)) {
-class ComponentMenu extends LitElement {
+class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement) {
   constructor() {
     super()
 
@@ -26,16 +25,15 @@ class ComponentMenu extends LitElement {
 
   static get properties() {
     return {
-      // statePath: 'component.groupComponents'
       groups: Object,
 
       scene: Object,
       group: {
         type: String
       },
-      components: {
+      templates: {
         type: Array,
-        computed: 'computeGroup(group)'
+        computed: 'computeTemplates(group)'
       }
     }
   }
@@ -108,17 +106,13 @@ class ComponentMenu extends LitElement {
       <h2 onclick="event.stopPropagation()">[[group]] list</h2>
 
       <paper-listbox data-group$="[[group]]" class="scroll">
-        <template is="dom-repeat" items="[[components]]">
+        <template is="dom-repeat" items="[[templates]]">
           <paper-item data-type$="[[item.type]]" on-click="onClickTemplate">
             <img src="[[templateIcon(item)]]" />[[item.type]]
           </paper-item>
         </template>
       </paper-listbox>
     `
-  }
-
-  stateChanged(state) {
-    this.groups = state.component.groupComponents
   }
 
   onClickTemplate(e) {
@@ -134,25 +128,19 @@ class ComponentMenu extends LitElement {
       return
     }
 
-    var group = this.groups[this.group].find(p => {
-      return p.type === type
-    })
+    var group = this.groups.find(g => g.name == this.group)
 
     if (this.scene && group) {
-      var center = this.scene.root.transcoordC2S(200, 200)
-
-      var template = this.groups[this.group].find(function(p) {
-        return p.type === type
-      })
-
-      this.scene.add(cloneDeep(template.model), { cx: center.x, cy: center.y })
+      var template = group.templates.find(template => (template.type = type))
+      template && this.scene.add(deepClone(template.model), { cx: 200, cy: 200 })
     }
 
     this.close()
   }
 
-  computeGroup(group) {
-    return this.groups[group]
+  computeTemplates(group) {
+    var g = this.groups.find(g => g.name == group)
+    return g.templates
   }
 
   templateIcon(template) {

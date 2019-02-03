@@ -2,7 +2,7 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html } from 'lit-element'
+import { LitElement } from 'lit-element'
 import '../../editors/things-editor-property'
 
 /**

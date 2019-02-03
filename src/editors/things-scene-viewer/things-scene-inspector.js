@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import Sortable from 'sortablejs'
 
-import { ScrollbarStyles } from '../../styles/scrolbar-styles'
+import { ScrollbarStyles } from '../../styles/scrollbar-styles'
 
 export default class ThingsSceneInspector extends LitElement {
   constructor() {
@@ -126,13 +126,11 @@ export default class ThingsSceneInspector extends LitElement {
     return html`
       <div class="inspector">${this.show ? '▼' : '▶'} inspector</div>
 
-      ${
-        !this.show || !this.scene
-          ? html``
-          : html`
-              <div id="outliner" ?hidden=${!this.show}>${this.renderComponent(this.scene.root, 0)}</div>
-            `
-      }
+      ${!this.show || !this.scene
+        ? html``
+        : html`
+            <div id="outliner" ?hidden=${!this.show}>${this.renderComponent(this.scene.root, 0)}</div>
+          `}
     `
   }
 
@@ -334,26 +332,22 @@ export default class ThingsSceneInspector extends LitElement {
         ?sortable=${component.isContainer()}
       >
         <span>
-          ${
-            depth > 0
-              ? html`
-                  <i class="eye" ?dimmed=${component.get('hidden')}> </i>
-                  <pre>${' '.repeat(depth)}</pre>
-                `
-              : html`
-                  <pre>${' '.repeat(depth + 2)}</pre>
-                `
-          }
+          ${depth > 0
+            ? html`
+                <i class="eye" ?dimmed=${component.get('hidden')}> </i>
+                <pre>${' '.repeat(depth)}</pre>
+              `
+            : html`
+                <pre>${' '.repeat(depth + 2)}</pre>
+              `}
 
           <span class=${this.getNodeHandleClass(component)}> </span>
 
-          <span class="type">${depth == 0 ? 'ROOT' : component.get('type')}</span> ${
-            component.get('id')
-              ? html`
-                  <span class="name">#${component.get('id')}</span>
-                `
-              : html``
-          }
+          <span class="type">${depth == 0 ? 'ROOT' : component.get('type')}</span> ${component.get('id')
+            ? html`
+                <span class="name">#${component.get('id')}</span>
+              `
+            : html``}
         </span>
         ${extended.map(child => this.renderComponent(child, depth + 1))}
       </div>

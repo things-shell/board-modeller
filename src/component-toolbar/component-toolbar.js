@@ -32,104 +32,109 @@ class ComponentToolbar extends LitElement {
   }
 
   static get styles() {
-    return css`
-      :host {
-        position: relative;
-        left: 0px;
-        display: block;
-        width: 45px;
-        background-color: #ece6dd;
-        height: 100%;
-      }
+    return [
+      css`
+        :host {
+          position: relative;
+          left: 0px;
+          display: block;
 
-      span {
-        display: flex;
-        flex-direction: row;
-        width: 45px;
-        height: 48px;
-        min-width: 50%;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        margin: 0;
-        background: url(./assets/images/icon-vtoolbar.png) -1px 0 no-repeat;
-      }
+          width: 45px;
+          background-color: #ece6dd;
+        }
 
-      span[data-group='line'] {
-        background-position: 50% -186px;
-      }
+        span {
+          display: flex;
+          flex-direction: row;
 
-      span[data-group='shape'] {
-        background-position: 0px -284px;
-      }
+          width: 45px;
+          height: 48px;
+          min-width: 50%;
 
-      span[data-group='textAndMedia'] {
-        background-position: 50% -385px;
-      }
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          margin: 0;
+          background: url(./assets/images/icon-vtoolbar.png) -1px 0 no-repeat;
+        }
 
-      span[data-group='chartAndGauge'] {
-        background-position: 50% -488px;
-      }
+        span[data-group='line'] {
+          background-position: 50% -186px;
+        }
 
-      span[data-group='table'] {
-        background-position: 50% -585px;
-      }
+        span[data-group='shape'] {
+          background-position: 0px -284px;
+        }
 
-      span[data-group='container'] {
-        background-position: 50% -685px;
-      }
+        span[data-group='textAndMedia'] {
+          background-position: 50% -385px;
+        }
 
-      span[data-group='dataSource'] {
-        background-position: 50% -888px;
-      }
+        span[data-group='chartAndGauge'] {
+          background-position: 50% -488px;
+        }
 
-      span[data-group='IoT'] {
-        background-position: -3px -788px;
-      }
+        span[data-group='table'] {
+          background-position: 50% -585px;
+        }
 
-      span[data-group='3D'] {
-        background-position: 50% -992px;
-      }
+        span[data-group='container'] {
+          background-position: 50% -685px;
+        }
 
-      span[data-group='warehouse'] {
-        background-position: -2px -1089px;
-      }
+        span[data-group='dataSource'] {
+          background-position: 50% -888px;
+        }
 
-      span[data-group='form'] {
-        background-position: -2px -1287px;
-      }
+        span[data-group='IoT'] {
+          background-position: -3px -788px;
+        }
 
-      span[data-group='etc'] {
-        background-position: -1px -1189px;
-      }
+        span[data-group='3D'] {
+          background-position: 50% -992px;
+        }
 
-      .pressed {
-        background-position: 0 15px;
-      }
+        span[data-group='warehouse'] {
+          background-position: -2px -1089px;
+        }
 
-      .pressed[pressed],
-      .pressed[active] {
-        background-position: -3px -88px;
-        background-color: #beb9b3;
-      }
-    `
-  }
+        span[data-group='form'] {
+          background-position: -2px -1287px;
+        }
 
-  stateChanged(state) {
-    this.componentGroupList = state.component.groupList
+        span[data-group='etc'] {
+          background-position: -1px -1189px;
+        }
+
+        .pressed {
+          background-position: 0 15px;
+        }
+
+        .pressed[pressed],
+        .pressed[active] {
+          background-position: -3px -88px;
+          background-color: #beb9b3;
+        }
+      `
+    ]
   }
 
   render() {
     return html`
       <span id="shift" toggles class="pressed" @click="${e => this._onClickShift(e)}"> </span>
 
-      ${
-        this.componentGroupList.map(
-          item => html`
-            <span data-group=${item.name} @click=${e => this._onClickGroup(e)}> </span>
-          `
-        )
-      }
+      ${this.componentGroupList.map(
+        item => html`
+          <span data-group=${item.name} @click=${e => this._onClickGroup(e)}> </span>
+        `
+      )}
 
-      <component-menu id="menu" .scene=${this.scene} group=${this.group} class="shadow"> </component-menu>
+      <component-menu
+        id="menu"
+        .scene=${this.scene}
+        .group=${this.group}
+        .groups=${this.componentGroupList}
+        class="shadow"
+      >
+      </component-menu>
     `
   }
 

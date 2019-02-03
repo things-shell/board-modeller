@@ -18,7 +18,8 @@ class PropertySpecific extends LitElement {
       value: Object,
       scene: Object,
       selected: Array,
-      props: Array
+      props: Array,
+      propertyEditor: Array
     }
   }
 
@@ -99,6 +100,7 @@ class PropertySpecific extends LitElement {
     this.value = {}
     this.selected = []
     this.props = []
+    this.propertyEditor = []
 
     this.boundTableCellBorderSet = this._onTableCellBorderSet.bind(this)
     this.boundActionClick = this._onActionClick.bind(this)
@@ -151,7 +153,8 @@ class PropertySpecific extends LitElement {
     return html`
       <label>${this.value.type}</label>
 
-      <specific-properties-builder .value=${this.value} .props=${this.props}> </specific-properties-builder>
+      <specific-properties-builder .value=${this.value} .props=${this.props} .propertyEditor=${this.propertyEditor}>
+      </specific-properties-builder>
     `
   }
 

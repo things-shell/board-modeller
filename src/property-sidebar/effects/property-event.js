@@ -4,7 +4,7 @@
 
 import { LitElement, html } from 'lit-element'
 
-import '../../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 import './property-event-hover'
 import './property-event-tap'
 

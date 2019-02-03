@@ -1,27 +1,41 @@
 import { LitElement, html, css } from 'lit-element'
 
 import '@material/mwc-fab/mwc-fab'
-import '@material/mwc-icon/mwc-icon'
 
 import '@polymer/paper-dialog/paper-dialog'
-// import { saveAs } from 'file-saver'
-// import { store } from '../../reducer/store'
+import { i18next } from '@things-shell/client-i18n'
+import '@things-shell/board-viewer'
 
-import { togglefullscreen } from './utils'
-// import '../../commons/board-preview'
-// import '../../components/things-scene-viewer/things-scene-viewer'
-// import '../../components/things-scene-viewer/things-scene-inspector'
+import './editors/things-scene-viewer/things-scene-viewer'
+import './editors/things-scene-viewer/things-scene-inspector'
 
-import './edit-toolbar/edit-toolbar'
 import './component-toolbar/component-toolbar'
 import './property-sidebar/property-sidebar'
 
-// import { i18next } from '../../components/i18next'
-// import elements from '../../things-scene-components-with-tools.import'
+import en_US from '../locales/en-US.json'
+import ko_KR from '../locales/ko-KR.json'
+import zh_CN from '../locales/zh-CN.json'
 
 class BoardModeller extends LitElement {
-  static get is() {
-    return 'board-modeller'
+  constructor() {
+    super()
+
+    i18next.addResourceBundle('en-US', 'translations', en_US['en-US'], true, true)
+    i18next.addResourceBundle('ko-KR', 'translations', ko_KR['ko-KR'], true, true)
+    i18next.addResourceBundle('zh-CN', 'translations', zh_CN['zh-CN'], true, true)
+
+    this.boardName = ''
+    this.model = null
+    this.baseUrl = ''
+    this.selected = []
+    this.mode = 1
+    this.provider = null
+    this.hideProperty = false
+    this.overlay = null
+    this.scene = null
+    this.componentGroupList = []
+    this.fonts = []
+    this.propertyEditor = []
   }
 
   static get properties() {
@@ -33,10 +47,11 @@ class BoardModeller extends LitElement {
       mode: Number,
       provider: Object,
       hideProperty: Boolean,
-      $model: Object,
       overlay: String,
       scene: Object,
-      store: Object
+      componentGroupList: Array,
+      fonts: Array,
+      propertyEditor: Array
     }
   }
 
@@ -45,13 +60,12 @@ class BoardModeller extends LitElement {
       css`
         :host {
           display: flex;
-          flex-direction: column;
-
-          overflow: hidden;
+          flex-direction: row;
         }
 
-        div {
+        #scene-wrap {
           flex: 1;
+          position: relative;
 
           display: flex;
           flex-direction: row;
@@ -59,10 +73,6 @@ class BoardModeller extends LitElement {
 
         things-scene-viewer {
           flex: 1;
-        }
-
-        #scene-wrap {
-          position: relative;
         }
 
         things-scene-inspector {
@@ -82,164 +92,77 @@ class BoardModeller extends LitElement {
 
   render() {
     return html`
-      <edit-toolbar
-        id="edittoolbar"
+      <component-toolbar
+        .scene=${this.scene}
+        .mode=${this.mode}
+        @mode-changed="${e => {
+          this.mode = e.detail.value
+        }}"
+        .componentGroupList=${this.componentGroupList}
+        .group=${this.group}
+      >
+      </component-toolbar>
+
+      <div id="scene-wrap">
+        <things-scene-viewer
+          id="scene"
+          .scene=${this.scene}
+          @scene-changed="${e => {
+            this.scene = e.detail.value
+          }}"
+          .model=${this.model}
+          .selected=${this.selected}
+          @selected-changed="${e => {
+            this.selected = e.detail.value
+          }}"
+          .mode=${this.mode}
+          @mode-changed="${e => {
+            this.mode = e.detail.value
+          }}"
+          fit="ratio"
+          .baseUrl=${this.baseUrl}
+          @contextmenu="${e => this.onContextMenu(e)}"
+          .provider=${this.provider}
+          name="modeller"
+        >
+          <things-scene-layer type="selection-layer"></things-scene-layer>
+          <things-scene-layer type="modeling-layer"></things-scene-layer>
+          <things-scene-layer type="guide-layer">
+            <things-scene-property name="ruler" value="disabled"></things-scene-property>
+          </things-scene-layer>
+          <things-scene-layer type="shift-layer">
+            <things-scene-property name="text" value="${this.overlay}"></things-scene-property>
+            <things-scene-property name="alpha" value="0.3"></things-scene-property>
+            <things-scene-property name="fontFamily" value="arial"></things-scene-property>
+            <things-scene-property name="fontSize" value="30" type="number"></things-scene-property>
+            <things-scene-property name="fontColor" value="navy"></things-scene-property>
+            <things-scene-property name="textBaseline" value="top"></things-scene-property>
+            <things-scene-property name="textAlign" value="left"></things-scene-property>
+            <things-scene-property name="paddingTop" value="50" type="number"></things-scene-property>
+            <things-scene-property name="paddingLeft" value="50" type="number"></things-scene-property>
+          </things-scene-layer>
+          <things-scene-layer type="tag-layer"></things-scene-layer>
+          <things-scene-handler type="text-editor"></things-scene-handler>
+          <things-scene-handler type="move-handler"></things-scene-handler>
+        </things-scene-viewer>
+
+        <things-scene-inspector .scene="${this.scene}"></things-scene-inspector>
+
+        <mwc-fab icon="save" @tap=${e => this.onTapSave(e)} title="save"> </mwc-fab>
+      </div>
+
+      <property-sidebar
         .scene=${this.scene}
         .selected=${this.selected}
-        ?hideProperty=${this.hideProperty}
-        @hide-property-changed="${e => (this.hideProperty = e.detail.value)}"
-        @open-preview="${e => this.onOpenPreview(e)}"
-        @download-model="${e => this.onDownloadModel(e)}"
-        @modeler-fullscreen="${e => this.onFullscreen(e)}"
+        ?collapsed=${this.hideProperty}
+        .fonts=${this.fonts}
+        .propertyEditor=${this.propertyEditor}
       >
-      </edit-toolbar>
-
-      <div>
-        <component-toolbar
-          .scene=${this.scene}
-          .mode=${this.mode}
-          @mode-changed="${
-            e => {
-              this.mode = e.detail.value
-            }
-          }"
-        >
-        </component-toolbar>
-
-        <div id="scene-wrap">
-          <things-scene-viewer
-            id="scene"
-            .scene=${this.scene}
-            @scene-changed="${
-              e => {
-                this.scene = e.detail.value
-              }
-            }"
-            .model=${this.$model}
-            .selected=${this.selected}
-            @selected-changed="${
-              e => {
-                this.selected = e.detail.value
-              }
-            }"
-            .mode=${this.mode}
-            @mode-changed="${
-              e => {
-                this.mode = e.detail.value
-              }
-            }"
-            fit="ratio"
-            .baseUrl=${this.baseUrl}
-            @contextmenu="${e => this.onContextMenu(e)}"
-            .provider=${this.provider}
-            name="modeler"
-          >
-            <things-scene-layer type="selection-layer"></things-scene-layer>
-            <things-scene-layer type="modeling-layer"></things-scene-layer>
-            <things-scene-layer type="guide-layer">
-              <things-scene-property name="ruler" value="disabled"></things-scene-property>
-            </things-scene-layer>
-            <things-scene-layer type="shift-layer">
-              <things-scene-property name="text" value="${this.overlay}"></things-scene-property>
-              <things-scene-property name="alpha" value="0.3"></things-scene-property>
-              <things-scene-property name="fontFamily" value="arial"></things-scene-property>
-              <things-scene-property name="fontSize" value="30" type="number"></things-scene-property>
-              <things-scene-property name="fontColor" value="navy"></things-scene-property>
-              <things-scene-property name="textBaseline" value="top"></things-scene-property>
-              <things-scene-property name="textAlign" value="left"></things-scene-property>
-              <things-scene-property name="paddingTop" value="50" type="number"></things-scene-property>
-              <things-scene-property name="paddingLeft" value="50" type="number"></things-scene-property>
-            </things-scene-layer>
-            <things-scene-layer type="tag-layer"></things-scene-layer>
-            <things-scene-handler type="text-editor"></things-scene-handler>
-            <things-scene-handler type="move-handler"></things-scene-handler>
-          </things-scene-viewer>
-
-          <things-scene-inspector .scene="${this.scene}"></things-scene-inspector>
-
-          <mwc-fab icon="save" @tap=${e => this.onTapSave(e)} title="save"> </mwc-fab>
-        </div>
-
-        <property-sidebar .scene=${this.scene} .selected=${this.selected} ?collapsed=${this.hideProperty}>
-        </property-sidebar>
-      </div>
+      </property-sidebar>
     `
   }
 
-  constructor() {
-    super()
-
-    this.boardName = ''
-    this.model = null
-    this.baseUrl = ''
-    this.selected = []
-    this.mode = 1
-    this.provider = null
-    this.hideProperty = false
-    this.$model = null
-    this.overlay = null
-    this.scene = null
-
-    // https://webpack.js.org/guides/code-splitting/#dynamic-imports
-    // 동적 임포트로 bundle splitting을 시도했으나, es2015 모듈에서는 안되는 듯.
-    // import(
-    //   /* webpackChunkName: "components-with-tools" */
-    //   /* webpackMode: "lazy" */
-    //   '../../things-scene-components-with-tools.import').then(elements => {
-    //     store.dispatch({
-    //       type: 'MODULE-PLUGIN',
-    //       elements
-    //     });
-    //   }).catch(error => 'An error occurred while loading the component');
-
-    /* 각 모듈의 locale정보로 resource bundle을 추가한다. */
-    // for (let element in elements) {
-    //   let locales = elements[element].locales
-
-    //   locales &&
-    //     Object.keys(locales).forEach(lng => {
-    //       i18next.addResourceBundle(lng, 'translations', locales[lng], true, true)
-    //     })
-    // }
-
-    // if (this.store)
-    //   this.store.dispatch({
-    //     type: 'MODULE-PLUGIN',
-    //     elements
-    //   })
-  }
-
-  stateChanged(state) {
-    if (state.route.page !== 'modeler') {
-      this.page = null
-      this.boardName = null
-      this.model = null
-      this.baseUrl = null
-
-      return
-    }
-
-    if (this.board !== state.boardCurrent) {
-      this.board = state.boardCurrent
-      this.boardName = state.boardCurrent.name
-      this.baseUrl = state.route.rootPath
-
-      this.model = state.boardCurrent.model
-    }
-  }
-
-  updated(change) {
-    change.has('page') && this._onPageChanged(this.page, change.page)
-    change.has('model') && this._onModelChanged(this.model)
-  }
-
-  firstUpdated() {
-    this.addEventListener('sidebar-collapsed-changed', () => {
-      this.shadowRoot.getElementById('scene').resize()
-    })
-  }
-
-  onOpenPreview() {
+  preview() {
     this.previewModel = JSON.parse(JSON.stringify(this.scene.model))
 
     /*
@@ -247,53 +170,46 @@ class BoardModeller extends LitElement {
      * https://github.com/PolymerElements/paper-dialog/issues/152
      **/
 
-    var preview = document.createElement('board-preview')
+    var preview = document.createElement('board-viewer')
 
     preview.style.width = '100%'
     preview.style.height = '100%'
     preview.style.margin = '0'
     preview.style.padding = '0'
-    preview.model = this.previewModel
+    preview.style.flex = 1
     preview.provider = this.provider
+    preview.board = {
+      id: 'preview',
+      model: this.previewModel
+    }
 
     var dialog = document.createElement('paper-dialog')
 
     dialog.style.width = '100%'
     dialog.style.height = '100%'
+    dialog.style.display = 'flex'
+    dialog.style['flex-direction'] = 'column'
     dialog.setAttribute('with-backdrop', true)
     dialog.setAttribute('auto-fit-on-attach', true)
     dialog.setAttribute('always-on-top', true)
     dialog.addEventListener('iron-overlay-closed', () => {
+      preview.board = null
       dialog.parentNode.removeChild(dialog)
     })
 
     dialog.appendChild(preview)
     document.body.appendChild(dialog)
 
+    dialog.open()
+
     requestAnimationFrame(() => {
-      dialog.open()
+      dispatchEvent(new Event('resize'))
     })
   }
 
-  onDownloadModel() {
-    if (!this.scene) return
-
-    var model = JSON.stringify(this.model, null, 2)
-    var filename = (this.boardName || 'NONAME') + '-' + Date.now() + '.json'
-    saveAs(new Blob([model], { type: 'application/octet-stream' }), filename)
-  }
-
   onTapSave() {
-    this.shadowRoot.getElementById('edittoolbar').saveBoard()
-  }
-
-  onFullscreen() {
-    togglefullscreen(this)
-  }
-
-  _onModelChanged(after, before) {
-    this.$model = this.model
+    this.dispatchEvent(new CustomEvent('save-model', { bubbles: true, composed: true, detail: { model: this.model } }))
   }
 }
 
-customElements.define(BoardModeller.is, BoardModeller)
+customElements.define('board-modeller', BoardModeller)

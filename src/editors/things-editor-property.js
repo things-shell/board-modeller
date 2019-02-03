@@ -4,7 +4,7 @@
 
 import { LitElement, html } from 'lit-element'
 
-import '../components/things-i18n-msg'
+import '@things-shell/client-i18n'
 import './things-editor-color'
 import './things-editor-color-stops'
 import './things-editor-multiple-color'
@@ -47,15 +47,13 @@ export default class ThingsEditorProperty extends LitElement {
   render() {
     return html`
       ${this.editorTemplate(this)}
-      ${
-        this.label
-          ? html`
-              <label for="editor">
-                <things-i18n-msg msgid=${this._computeLabelId(this.label)}>${this.label}</things-i18n-msg>
-              </label>
-            `
-          : html``
-      }
+      ${this.label
+        ? html`
+            <label for="editor">
+              <things-i18n-msg msgid=${this._computeLabelId(this.label)}>${this.label}</things-i18n-msg>
+            </label>
+          `
+        : html``}
     `
   }
 
@@ -210,15 +208,13 @@ class PropertyEditorSelect extends ThingsEditorProperty {
   editorTemplate(props) {
     return html`
       <select id="editor">
-        ${
-          props.property.options.map(
-            item => html`
-              <option value=${props._getOptionValue(item)} ?selected=${props._isSelected(props.value, item)}
-                >${this._getOptionDisplay(item)}</option
-              >
-            `
-          )
-        }
+        ${props.property.options.map(
+          item => html`
+            <option value=${props._getOptionValue(item)} ?selected=${props._isSelected(props.value, item)}
+              >${this._getOptionDisplay(item)}</option
+            >
+          `
+        )}
       </select>
     `
   }
