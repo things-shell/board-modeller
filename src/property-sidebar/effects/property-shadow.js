@@ -18,10 +18,6 @@ import '../../editors/things-editor-color'
  */
 
 export default class PropertyShadow extends LitElement {
-  static get is() {
-    return 'property-shadow'
-  }
-
   static get properties() {
     return {
       value: Object
@@ -153,4 +149,4 @@ export default class PropertyShadow extends LitElement {
   }
 }
 
-customElements.define(PropertyShadow.is, PropertyShadow)
+customElements.define('property-shadow', PropertyShadow)

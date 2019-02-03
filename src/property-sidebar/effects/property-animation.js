@@ -18,10 +18,6 @@ Example:
     </property-animation>
 */
 export default class PropertyAnimation extends LitElement {
-  static get is() {
-    return 'property-animation'
-  }
-
   static get properties() {
     return {
       value: Object
@@ -170,4 +166,4 @@ export default class PropertyAnimation extends LitElement {
   }
 }
 
-customElements.define(PropertyAnimation.is, PropertyAnimation)
+customElements.define('property-animation', PropertyAnimation)

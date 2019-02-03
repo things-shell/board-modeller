@@ -9,10 +9,6 @@ import '@things-shell/client-i18n'
 import { EffectsSharedStyle } from './effects-shared-style'
 
 class PropertyEventHover extends LitElement {
-  static get is() {
-    return 'property-event-hover'
-  }
-
   static get properties() {
     return {
       value: Object,
@@ -156,4 +152,4 @@ class PropertyEventHover extends LitElement {
   }
 }
 
-customElements.define(PropertyEventHover.is, PropertyEventHover)
+customElements.define('property-event-hover', PropertyEventHover)

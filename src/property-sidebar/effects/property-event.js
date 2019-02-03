@@ -11,10 +11,6 @@ import './property-event-tap'
 import { PropertySharedStyle } from '../property-shared-style'
 
 class PropertyEvent extends LitElement {
-  static get is() {
-    return 'property-event'
-  }
-
   static get properties() {
     return {
       value: Object,
@@ -103,4 +99,4 @@ class PropertyEvent extends LitElement {
   }
 }
 
-customElements.define(PropertyEvent.is, PropertyEvent)
+customElements.define('property-event', PropertyEvent)

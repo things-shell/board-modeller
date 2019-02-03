@@ -9,10 +9,6 @@ import '@things-shell/client-i18n'
 import { EffectsSharedStyle } from './effects-shared-style'
 
 class PropertyEventTap extends LitElement {
-  static get is() {
-    return 'property-event-tap'
-  }
-
   static get properties() {
     return {
       value: Object,
@@ -120,4 +116,4 @@ class PropertyEventTap extends LitElement {
   }
 }
 
-customElements.define(PropertyEventTap.is, PropertyEventTap)
+customElements.define('property-event-tap', PropertyEventTap)

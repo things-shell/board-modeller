@@ -10,10 +10,6 @@ import './property-animation'
 import { PropertySharedStyle } from '../property-shared-style'
 
 class PropertyAnimations extends LitElement {
-  static get is() {
-    return 'property-animations'
-  }
-
   static get properties() {
     return {
       value: Object
@@ -94,4 +90,4 @@ class PropertyAnimations extends LitElement {
   }
 }
 
-customElements.define(PropertyAnimations.is, PropertyAnimations)
+customElements.define('property-animations', PropertyAnimations)

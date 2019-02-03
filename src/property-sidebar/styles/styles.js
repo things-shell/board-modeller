@@ -4,7 +4,6 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '@polymer/paper-radio-group/paper-radio-group'
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu'
 
 import '../../editors/things-editor-buttons-radio'

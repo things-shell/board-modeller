@@ -10,10 +10,6 @@ export default class ThingsSceneInspector extends LitElement {
     this.show = false
   }
 
-  static get is() {
-    return 'things-scene-inspector'
-  }
-
   static get properties() {
     return {
       scene: Object,
@@ -355,4 +351,4 @@ export default class ThingsSceneInspector extends LitElement {
   }
 }
 
-customElements.define(ThingsSceneInspector.is, ThingsSceneInspector)
+customElements.define('things-scene-inspector', ThingsSceneInspector)
