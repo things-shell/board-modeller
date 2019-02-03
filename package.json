@@ -1,17 +1,31 @@
 {
   "name": "@things-shell/board-modeller",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "src/index.js",
   "repository": "https://github.com/things-shell/board-modeller.git",
   "author": "Stellan Gil <lotstar87@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
     "serve": "webpack-dev-server --hot",
-    "build": "webpack",
-    "prepublish": "webpack"
+    "build": "webpack"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
     "@material/mwc-button": "^0.3.5",
     "@material/mwc-fab": "^0.3.5",
     "@material/mwc-icon": "^0.3.5",
@@ -29,22 +43,17 @@
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
-    "babel-loader": "^8.0.5",
+    "@things-shell/board-viewer": "^0.0.3",
+    "@things-shell/client-i18n": "^0.0.2",
+    "@things-shell/client-utils": "^0.0.5",
     "codemirror": "^5.43.0",
-    "css-loader": "^2.1.0",
-    "html-webpack-plugin": "^3.2.0",
-    "i18next": "^14.0.1",
-    "i18next-browser-languagedetector": "^2.2.4",
-    "lodash": "^4.17.11",
+    "file-saver": "^2.0.0",
+    "lit-element": "^2.0.0-rc.5",
     "pwa-helpers": "^0.9.0",
-    "tinycolor2": "^1.4.1",
-    "uglifyjs-webpack-plugin": "^2.1.1",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.29.0",
-    "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.14"
+    "sortablejs": "^1.8.1",
+    "tinycolor2": "^1.4.1"
   },
-  "dependencies": {
-    "lit-element": "^2.0.0-rc.5"
+  "resolutions": {
+    "terser": "3.14.1"
   }
 }
