@@ -131,7 +131,7 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
     var group = this.groups.find(g => g.name == this.group)
 
     if (this.scene && group) {
-      var template = group.templates.find(template => (template.type = type))
+      var template = group.templates.find(template => template.type == type)
       template && this.scene.add(deepClone(template.model), { cx: 200, cy: 200 })
     }
 
