@@ -26,7 +26,7 @@ class PropertySidebar extends LitElement {
     this.model = {}
     this.selected = []
     this.specificProps = []
-    this.tapIndex = 0
+    this.tabIndex = 0
     this.collapsed = false
     this.fonts = []
     this.propertyEditor = []
@@ -39,7 +39,7 @@ class PropertySidebar extends LitElement {
       model: Object,
       selected: Array,
       specificProps: Array,
-      tapIndex: Number,
+      tabIndex: Number,
       collapsed: Boolean,
       fonts: Array,
       propertyEditor: Array
@@ -97,13 +97,7 @@ class PropertySidebar extends LitElement {
 
   render() {
     return html`
-      <paper-tabs
-        @selected-changed=${e => {
-          this.tapIndex = e.target.selected
-        }}
-        selected=${this.tapIndex}
-        noink
-      >
+      <paper-tabs @selected-changed=${e => (this.tabIndex = e.target.selected)} .selected=${this.tabIndex} noink>
         <paper-tab> <mwc-icon>list</mwc-icon> </paper-tab>
         <paper-tab> <mwc-icon>palette</mwc-icon> </paper-tab>
         <paper-tab> <mwc-icon>photo_filter</mwc-icon> </paper-tab>
@@ -111,7 +105,7 @@ class PropertySidebar extends LitElement {
         <paper-tab> <mwc-icon>settings_brightness</mwc-icon> </paper-tab>
       </paper-tabs>
 
-      <iron-pages selected=${this.tapIndex}>
+      <iron-pages .selected="${this.tabIndex}">
         <property-shape .value=${this.model} .bounds=${this.bounds} .selected=${this.selected}> </property-shape>
 
         <property-style .value=${this.model} .selected=${this.selected} .fonts=${this.fonts}> </property-style>
@@ -202,10 +196,7 @@ class PropertySidebar extends LitElement {
 
     this.animate(
       collapsed
-        ? [
-            { transform: 'translateX(0)', opacity: 1, easing: 'ease-out' },
-            { transform: 'translateX(100%)', opacity: 1 }
-          ]
+        ? [{ transform: 'translateX(0)', opacity: 1, easing: 'ease-in' }, { transform: 'translateX(100%)', opacity: 1 }]
         : [
             { transform: 'translateX(100%)', opacity: 1 },
             { transform: 'translateX(0)', opacity: 1, easing: 'ease-out' }
@@ -213,10 +204,10 @@ class PropertySidebar extends LitElement {
       {
         duration: 500
       }
-    ).finished.then(() => {
+    ).onfinish = () => {
       collapsed && (this.style.display = 'none')
       dispatchEvent(new Event('resize'))
-    })
+    }
   }
 
   async _onSceneChanged() {

@@ -61,6 +61,8 @@ class BoardModeller extends LitElement {
         :host {
           display: flex;
           flex-direction: row;
+          height: 100%;
+          overflow: hidden;
         }
 
         #scene-wrap {
