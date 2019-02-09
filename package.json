@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/board-modeller",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "src/index.js",
   "repository": "https://github.com/things-shell/board-modeller.git",
   "author": "Stellan Gil <lotstar87@users.noreply.github.com>",
@@ -26,7 +26,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "^2.5.0-rc.16",
+    "@hatiolab/things-scene": "^2.5.0-rc.20",
     "@material/mwc-button": "^0.3.6",
     "@material/mwc-fab": "^0.3.6",
     "@material/mwc-icon": "^0.3.6",
@@ -44,7 +44,7 @@
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
-    "@things-shell/board-viewer": "^0.0.4",
+    "@things-shell/board-viewer": "^0.1.1",
     "@things-shell/client-i18n": "^0.0.3",
     "@things-shell/client-utils": "^0.0.5",
     "codemirror": "^5.43.0",
