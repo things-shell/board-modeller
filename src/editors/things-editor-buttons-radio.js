@@ -4,8 +4,6 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '@polymer/paper-button/paper-button'
-
 /**
 여러 버튼 중에서 하나만 눌리거나, 모두 눌리지 않은 상태만을 갖는 라디오 형태의 버튼이다.
 
@@ -71,7 +69,7 @@ class ThingsEditorButtonsRadio extends LitElement {
 
   render() {
     return html`
-      <slot select="paper-button" @tap=${e => this._onTapButton(e)}></slot>
+      <slot select="paper-button" @click=${e => this._onTapButton(e)}></slot>
     `
   }
 

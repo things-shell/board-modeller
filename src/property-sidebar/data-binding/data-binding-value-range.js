@@ -128,7 +128,7 @@ export default class DataBindingValueRange extends LitElement {
                         data-value-type=${this.valuetype}
                       />
                     `
-              } <button class="record-action" @tap=${e => this._delete(e)} tabindex="-1">-</button>
+              } <button class="record-action" @click=${e => this._delete(e)} tabindex="-1">-</button>
             </div>
           `
         )
@@ -150,7 +150,7 @@ export default class DataBindingValueRange extends LitElement {
             : html`
                 <input type="text" data-value placeholder="value" value="" data-value-type=${this.valuetype} />
               `
-        } <button class="record-action" @tap=${e => this._add(e)} tabindex="-1">+</button>
+        } <button class="record-action" @click=${e => this._add(e)} tabindex="-1">+</button>
       </div>
 
       <div data-record>
@@ -182,7 +182,7 @@ export default class DataBindingValueRange extends LitElement {
                   data-value-type=${this.valuetype}
                 />
               `
-        } <button class="record-action" @tap="${e => this._sort(e)}">&gt;</button>
+        } <button class="record-action" @click="${e => this._sort(e)}">&gt;</button>
       </div>
     `
   }
