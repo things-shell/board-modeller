@@ -72,7 +72,7 @@ export default class ThingsEditorColorStyle extends LitElement {
 
   render() {
     return html`
-      <paper-radio-group .selected=${this.fillType} @change=${e => this._onChangedFillType(e)}>
+      <paper-radio-group .selected=${this.fillType || 'no'} @change=${e => this._onChangedFillType(e)}>
         <paper-radio-button name="no">
           <things-i18n-msg msgid="label.no-fill">no fill</things-i18n-msg>
         </paper-radio-button>

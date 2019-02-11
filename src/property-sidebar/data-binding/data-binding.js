@@ -164,7 +164,12 @@ class PropertyDataBinding extends LitElement {
       <fieldset>
         <legend><things-i18n-msg msgid="label.mapping" auto>Mapping</things-i18n-msg></legend>
 
-        <paper-tabs @iron-select=${e => this._setMappingIndex(e.target.selected)} .selected=${this.mappingIndex}>
+        <paper-tabs
+          @iron-select=${e => this._setMappingIndex(e.target.selected)}
+          .selected=${this.mappingIndex}
+          noink
+          no-bar
+        >
           <paper-tab data-mapping="1">1</paper-tab>
           <paper-tab data-mapping="2">2</paper-tab>
           <paper-tab data-mapping="3">3</paper-tab>

@@ -123,7 +123,7 @@ export default class DataBindingMapper extends LitElement {
       </select>
 
       <label> <things-i18n-msg msgid="label.rule-type">rule type</things-i18n-msg> </label>
-      <paper-radio-group @click=${e => this._onChangeRule(e)} .selected=${this.mapping.rule}>
+      <paper-radio-group @click=${e => this._onChangeRule(e)} .selected=${this.mapping.rule || 'value'}>
         <paper-radio-button name="value">
           <things-i18n-msg msgid="label.value">value</things-i18n-msg>
         </paper-radio-button>
