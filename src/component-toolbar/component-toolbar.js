@@ -4,8 +4,6 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '@polymer/app-layout/app-toolbar/app-toolbar'
-
 import './component-menu'
 
 class ComponentToolbar extends LitElement {

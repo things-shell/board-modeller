@@ -3,18 +3,9 @@
  */
 
 import { LitElement, html } from 'lit-element'
-
-import '@polymer/app-layout/app-toolbar/app-toolbar'
-import '@polymer/paper-slider/paper-slider'
-import '@polymer/paper-input/paper-input'
-import '@polymer/paper-input/paper-textarea'
-
-import '@polymer/neon-animation/animations/scale-up-animation'
-import '@polymer/neon-animation/animations/fade-out-animation'
-import '@polymer/paper-dialog/paper-dialog'
-import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable'
-
 import { i18next, localize } from '@things-shell/client-i18n'
+
+import '@polymer/paper-icon-button/paper-icon-button'
 
 import { style } from './edit-toolbar-style'
 

@@ -7,7 +7,6 @@ import { LitElement, html, css } from 'lit-element'
 import '@material/mwc-icon/mwc-icon'
 
 import '@polymer/paper-tabs/paper-tabs'
-import 'web-animations-js'
 
 import './shapes/shapes'
 import './styles/styles'
