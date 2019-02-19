@@ -1,17 +1,18 @@
 {
   "name": "@things-shell/board-modeller",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "main": "src/index.js",
   "repository": "https://github.com/things-shell/board-modeller.git",
   "author": "Stellan Gil <lotstar87@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
     "serve": "webpack-dev-server --hot",
-    "build": "webpack"
+    "build": "webpack",
+    "prepublish": "webpack"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/plugin-proposal-decorators": "^7.3.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -19,14 +20,19 @@
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "rollup": "^1.2.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-terser": "^4.0.4",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.29.3",
+    "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "^2.5.0-rc.20",
+    "@hatiolab/things-scene": "^2.5.0",
     "@material/mwc-button": "^0.3.6",
     "@material/mwc-fab": "^0.3.6",
     "@material/mwc-icon": "^0.3.6",
@@ -44,13 +50,13 @@
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
-    "@things-shell/board-viewer": "^0.1.1",
-    "@things-shell/client-i18n": "^0.0.3",
-    "@things-shell/client-utils": "^0.0.5",
+    "@things-shell/board-viewer": "^0.3.0",
+    "@things-shell/client-i18n": "^0.2.1",
+    "@things-shell/client-utils": "^0.1.0",
     "codemirror": "^5.43.0",
     "lit-element": "^2.0.1",
-    "pwa-helpers": "^0.9.0",
-    "sortablejs": "^1.8.1",
+    "pwa-helpers": "^0.9.1",
+    "sortablejs": "^1.8.3",
     "tinycolor2": "^1.4.1"
   }
 }
