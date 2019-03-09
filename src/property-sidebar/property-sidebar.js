@@ -166,13 +166,13 @@ class PropertySidebar extends LitElement {
       if (property) this.model[property] = after[property]
     }
 
-    this.model = JSON.parse(JSON.stringify(this.model))
+    // this.model = JSON.parse(JSON.stringify(this.model))
 
     /*
      * this.model의 내부 속성만 변경되기 때문에,
      * property-specific의 변경을 위해서 rerender()를 호출해서, 강제로 갱신하도록 한다.
      */
-    // this.shadowRoot.querySelector('property-specific').rerender()
+    this.shadowRoot.querySelector('property-specific').rerender()
     this.propertyTarget && this._setBounds(this.propertyTarget.bounds)
   }
 
