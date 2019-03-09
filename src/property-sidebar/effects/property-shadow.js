@@ -56,9 +56,7 @@ export default class PropertyShadow extends LitElement {
         .icon-only-label {
           background: url(./assets/images/icon-properties-label.png) no-repeat;
           width: 30px;
-          height: 24px;
           float: left;
-          margin-top: 2px;
           margin-left: 40px;
         }
 

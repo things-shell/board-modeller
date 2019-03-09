@@ -34,9 +34,13 @@ class PropertyStyles extends LitElement {
           width: 100%;
         }
 
+        .btn-group {
+          height: 24px;
+        }
+
         .btn-group paper-button {
           width: 30px;
-          height: 25px;
+          height: 24px;
           min-width: initial;
           margin: 0 4px 0 0;
           padding: 0;

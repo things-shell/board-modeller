@@ -186,9 +186,7 @@ class ThingsEditorColor extends LitElement {
         }
 
         input[type='text'] {
-          border: 1px solid #ccc;
           box-sizing: border-box;
-          font-size: 13px;
           width: 100%;
           height: 100%;
         }
@@ -208,7 +206,6 @@ class ThingsEditorColor extends LitElement {
           display: inline-block;
           width: 15px;
           height: 14px;
-          line-height: 12px;
           border-radius: 10%;
           border: 1px solid #eee;
         }

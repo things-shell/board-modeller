@@ -35,6 +35,11 @@ export const ThingsEditorPropertyStyles = css`
     text-align: left;
   }
 
+  select {
+    height: 22px;
+    border-color: lightgray;
+  }
+  
   legend {
     grid-column: 1 / -1;
 

@@ -97,11 +97,11 @@ class PropertySidebar extends LitElement {
   render() {
     return html`
       <paper-tabs @selected-changed=${e => (this.tabIndex = e.target.selected)} .selected=${this.tabIndex} noink no-bar>
-        <paper-tab> <mwc-icon>list</mwc-icon> </paper-tab>
+        <paper-tab> <mwc-icon>format_shapes</mwc-icon> </paper-tab>
         <paper-tab> <mwc-icon>palette</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>photo_filter</mwc-icon> </paper-tab>
+        <paper-tab> <mwc-icon>movie_filter</mwc-icon> </paper-tab>
         <paper-tab> <mwc-icon>tune</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>settings_brightness</mwc-icon> </paper-tab>
+        <paper-tab> <mwc-icon>share</mwc-icon> </paper-tab>
       </paper-tabs>
 
       <iron-pages .selected="${this.tabIndex}">

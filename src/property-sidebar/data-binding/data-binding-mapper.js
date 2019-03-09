@@ -52,23 +52,24 @@ export default class DataBindingMapper extends LitElement {
           grid-auto-rows: minmax(24px, auto);
         }
 
-        :host > * {
-          line-height: 1.5;
-        }
-
-        :host > label {
+        label {
           grid-column: span 3;
           text-align: right;
           text-transform: capitalize;
         }
 
-        :host > input,
-        :host > select,
-        :host > paper-radio-group {
+        input,
+        select,
+        paper-radio-group {
           grid-column: span 7;
         }
 
-        :host > iron-pages {
+        select {
+          height: 22px;
+          border-color: lightgray;
+        }
+
+        iron-pages {
           grid-column: span 10;
         }
 

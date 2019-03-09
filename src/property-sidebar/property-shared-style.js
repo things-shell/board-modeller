@@ -22,6 +22,11 @@ export const PropertySharedStyle = css`
     text-transform: capitalize;
   }
 
+  select {
+    height: 22px;
+    border-color: lightgray;
+  }
+
   /* property grid */
   .property-grid {
     display: grid;
@@ -30,15 +35,10 @@ export const PropertySharedStyle = css`
     grid-auto-rows: minmax(24px, auto);
   }
 
-  .property-grid > * {
-    line-height: 1.5;
-  }
-
   .property-grid > label {
     grid-column: span 3;
     text-align: right;
     text-transform: capitalize;
-    line-height: 2;
   }
 
   .property-grid > input,
