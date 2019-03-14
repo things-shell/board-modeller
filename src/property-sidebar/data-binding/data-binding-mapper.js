@@ -87,7 +87,9 @@ export default class DataBindingMapper extends LitElement {
 
   constructor() {
     super()
-    this.mapping = {}
+    this.mapping = {
+      rule: 'value'
+    }
     this.rule = {}
     this.properties = []
   }
@@ -226,7 +228,6 @@ export default class DataBindingMapper extends LitElement {
     var value = element.name
 
     let param
-    this.mapping.rule = value
 
     switch (this.mapping.rule) {
       case 'map':
@@ -296,6 +297,9 @@ export default class DataBindingMapper extends LitElement {
       }
     }
 
+    if (!this.mapping.rule) {
+      this.mapping.rule = 'value'
+    }
     this._keep_saved_rule_params = true
     this.dispatchEvent(new CustomEvent('value-change', { bubbles: true, composed: true }))
   }
