@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/board-modeller",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "main": "src/index.js",
   "repository": "https://github.com/things-shell/board-modeller.git",
   "author": "Stellan Gil <lotstar87@users.noreply.github.com>",
@@ -18,9 +18,9 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
-    "css-loader": "^2.1.0",
+    "css-loader": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
-    "rollup": "^1.4.1",
+    "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-node-resolve": "^4.0.1",
@@ -28,13 +28,13 @@
     "uglifyjs-webpack-plugin": "^2.1.2",
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3",
+    "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "^2.5.15",
-    "@material/mwc-button": "^0.3.6",
-    "@material/mwc-fab": "^0.3.6",
+    "@hatiolab/things-scene": "^2.5.18",
+    "@material/mwc-button": "^0.4.0",
+    "@material/mwc-fab": "^0.4.0",
     "@material/mwc-icon": "^0.3.6",
     "@polymer/app-layout": "^3.0.2",
     "@polymer/iron-pages": "^3.0.1",
@@ -50,13 +50,13 @@
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
-    "@things-shell/board-viewer": "^0.3.11",
+    "@things-shell/board-viewer": "^0.3.12",
     "@things-shell/client-i18n": "^0.2.1",
     "@things-shell/client-utils": "^0.1.2",
     "codemirror": "^5.44.0",
     "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.1",
-    "sortablejs": "^1.8.3",
+    "sortablejs": "^1.8.4",
     "tinycolor2": "^1.4.1"
   }
 }
