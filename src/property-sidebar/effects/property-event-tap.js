@@ -39,7 +39,10 @@ class PropertyEventTap extends LitElement {
         <option value="link-open">open new window for target link</option>
         <option value="link-move">move to target link</option>
         <option value="popup">popup target board</option>
+        <option value="popup-with-backdrop">popup(w/ backdrop) target board</option>
+        <option value="close-scene">close current board</option>
         <option value="infoWindow">open infowindow</option>
+        <option value="toggle-info-window">toggle infowindow</option>
         <option value="data-toggle">toggle(true/false) target component data </option>
         <option value="data-tristate">tristate(0/1/2) target component data </option>
         <option value="data-set">set value to target component data</option>
