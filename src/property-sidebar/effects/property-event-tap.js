@@ -39,7 +39,7 @@ class PropertyEventTap extends LitElement {
         <option value="link-open">open new window for target link</option>
         <option value="link-move">move to target link</option>
         <option value="popup">popup target board</option>
-        <option value="popup-with-backdrop">popup(w/ backdrop) target board</option>
+        <option value="modal-popup">modal popup target board</option>
         <option value="close-scene">close current board</option>
         <option value="infoWindow">open infowindow</option>
         <option value="toggle-info-window">toggle infowindow</option>
