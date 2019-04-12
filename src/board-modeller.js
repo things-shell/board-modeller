@@ -75,6 +75,8 @@ class BoardModeller extends LitElement {
 
         things-scene-viewer {
           flex: 1;
+          width: 100%;
+          height: 100%;
         }
 
         things-scene-inspector {
