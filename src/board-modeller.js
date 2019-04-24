@@ -166,6 +166,33 @@ class BoardModeller extends LitElement {
     `
   }
 
+  get modellingContainer() {
+    return this.shadowRoot.getElementById('scene-wrap')
+  }
+
+  bindShortcutEvent(target = this) {
+    target.addEventListener('keydown', this.onKeydown.bind(this))
+  }
+
+  onKeydown(e) {
+    var userOS = this._isMacOS()
+    this.onShortcut(e, userOS)
+  }
+
+  onShortcut(e, MacOS) {
+    if (MacOS) var ctrlKey = e.metaKey
+    else var ctrlKey = e.ctrlKey
+
+    switch (e.code) {
+      case 'KeyS':
+        if (ctrlKey) {
+          this.onTapSave()
+          e.preventDefault()
+        }
+        break
+    }
+  }
+
   preview() {
     this.previewModel = JSON.parse(JSON.stringify(this.scene.model))
 
@@ -213,6 +240,10 @@ class BoardModeller extends LitElement {
 
   onTapSave() {
     this.dispatchEvent(new CustomEvent('save-model', { bubbles: true, composed: true, detail: { model: this.model } }))
+  }
+
+  _isMacOS() {
+    return navigator.userAgent.indexOf('Mac') != -1
   }
 }
 

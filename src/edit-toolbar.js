@@ -236,6 +236,17 @@ class EditToolbar extends localize(i18next)(LitElement) {
     `
   }
 
+  bindShortcutEvent(container) {
+    var modelerScene = container
+
+    var userOS = this._isMacOS() // OS가 맥인지 확인
+
+    modelerScene.addEventListener('keydown', e => {
+      this.onShortcut(e, userOS)
+      modelerScene.focus()
+    })
+  }
+
   _isMacOS() {
     return navigator.userAgent.indexOf('Mac') != -1
   }
@@ -334,15 +345,11 @@ class EditToolbar extends localize(i18next)(LitElement) {
         break
       case 'F11':
         this.onTapFullscreen()
-        break
-      case 'KeyS':
-        if (ctrlKey) {
-          this.saveBoard()
-          e.preventDefault()
-        }
+        e.preventDefault()
         break
       case 'KeyP':
         if (ctrlKey) this.onTapPreview()
+        e.preventDefault()
         break
       case 'KeyA':
         if (ctrlKey) this.onTapSelectAll()
@@ -374,9 +381,11 @@ class EditToolbar extends localize(i18next)(LitElement) {
         break
       case 'Digit1':
         if (ctrlKey) console.log('MODEL', this.scene && this.scene.model)
+        e.preventDefault()
         break
       case 'Digit2':
         if (ctrlKey) console.log('SELECTED', this.scene && this.scene.selected)
+        e.preventDefault()
         break
     }
   }
