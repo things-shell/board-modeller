@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/board-modeller",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "main": "src/index.js",
   "repository": "https://github.com/things-shell/board-modeller.git",
   "author": "Stellan Gil <lotstar87@users.noreply.github.com>",
@@ -50,7 +50,7 @@
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
-    "@things-shell/board-viewer": "^0.4.2",
+    "@things-shell/board-viewer": "^0.4.4",
     "@things-shell/client-i18n": "^0.3.1",
     "@things-shell/client-utils": "^0.3.0",
     "codemirror": "^5.45.0",
