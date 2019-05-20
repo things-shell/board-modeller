@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/board-modeller",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "main": "src/index.js",
   "repository": "https://github.com/things-shell/board-modeller.git",
   "author": "Stellan Gil <lotstar87@users.noreply.github.com>",
