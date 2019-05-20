@@ -15,18 +15,19 @@ const PROPS = [
   ['fillStyle', 'fill style'],
   ['strokeStyle', 'stroke style'],
   ['fontColor', 'font color'],
+  'value',
+  'data',
+  'source',
+  'started',
+  'hidden',
   ['ref', 'reference'],
+  'options',
   'rotate',
   'scale',
   'translate',
   'dimension',
-  'hidden',
   'location',
-  'value',
-  'data',
-  'accessor',
-  'options',
-  'started'
+  'accessor'
 ].map(prop => {
   return typeof prop == 'string' ? { name: prop, label: prop } : { name: prop[0], label: prop[1] }
 })

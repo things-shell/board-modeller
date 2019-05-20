@@ -179,6 +179,7 @@ export default class DataBindingMapper extends LitElement {
         return 'color'
         break
       case 'data':
+      case 'source':
       case 'location':
       case 'dimension':
         return 'object'
