@@ -46,6 +46,7 @@ class PropertyEventTap extends LitElement {
         <option value="data-toggle">toggle(true/false) target component data </option>
         <option value="data-tristate">tristate(0/1/2) target component data </option>
         <option value="data-set">set value to target component data</option>
+        <option value="value-set">set value to target component value</option>
       </select>
 
       <label> <things-i18n-msg msgid="label.target">target</things-i18n-msg> </label>
@@ -92,6 +93,7 @@ class PropertyEventTap extends LitElement {
       case 'data-toggle':
       case 'data-tristate':
       case 'data-set':
+      case 'value-set':
         let ids = (this.scene && this.scene.ids.map(i => `#${i.key}`)) || []
         ids.unshift('(self)')
         return ids
