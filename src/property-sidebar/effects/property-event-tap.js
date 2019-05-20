@@ -66,7 +66,7 @@ class PropertyEventTap extends LitElement {
         )}
       </datalist>
 
-      ${this.value.action == 'data-set'
+      ${this.value.action == 'data-set' || this.value.action == 'value-set'
         ? html`
             <label> <things-i18n-msg msgid="label.value">value</things-i18n-msg> </label>
             <input value-key="value" .value=${this.value.value || ''} />
