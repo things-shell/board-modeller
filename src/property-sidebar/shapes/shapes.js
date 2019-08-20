@@ -159,10 +159,10 @@ class PropertyShapes extends LitElement {
           ${this._hasProperties(this.selected)
             ? html`
                 <div class="checkbox-row">
-                  <input value-key="hidden" type="checkbox" ?checked=${this.value.hidden} />
+                  <input value-key="hidden" type="checkbox" .checked=${this.value.hidden} />
                   <label> <things-i18n-msg msgid="label.item-hidden">Item Hidden</things-i18n-msg> </label>
 
-                  <input value-key="locked" type="checkbox" ?checked=${this.value.locked} />
+                  <input value-key="locked" type="checkbox" .checked=${this.value.locked} />
                   <label> <things-i18n-msg msgid="label.locked">Locked</things-i18n-msg> </label>
                 </div>
               `
@@ -236,7 +236,7 @@ class PropertyShapes extends LitElement {
                 </things-editor-buttons-radio>
 
                 <div class="checkbox-row">
-                  <input type="checkbox" value-key="textWrap" ?checked=${this.value.textWrap} />
+                  <input type="checkbox" value-key="textWrap" .checked=${this.value.textWrap} />
                   <label> <things-i18n-msg msgid="label.text-wrap">Text Wrap</things-i18n-msg> </label>
                 </div>
 
